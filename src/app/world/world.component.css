@@ -1,0 +1,25 @@
+main {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.details-section {
+  text-align: center;
+  background-color: black;
+  color: darkorange;
+  border-radius: 25px;
+  width: 20%;
+}
+
+path:hover {
+  fill: darkorange; /*rgb(43, 226, 217)*/
+  stroke: #00f2ff;
+}
+
+.map-container {
+  width: 100%;
+  height: auto;
+}
