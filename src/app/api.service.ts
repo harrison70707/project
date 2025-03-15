@@ -1,17 +1,37 @@
-// filepath: src/app/api.service.ts
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = 'https://api.worldbank.org/v2/country';
-
   constructor(private http: HttpClient) {}
 
-  getCountryData(countryCode: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${countryCode}?format=json`);
+  // country name(e.g., Chad)
+  // country capital(e.g., N’Djamena)
+  // country region(e.g., Sub-Saharan Africa)
+  // income level(e.g., low income)
+  // two additional country properties of your choice
+  fetchCountryData(country: string) {
+    let url = `http://api.worldbank.org/v2/country/${country}?format=json`;
+    return this.http.get(url);
+  }
+
+  setCountryData(country: string) {
+    let subject = new Subject();
+    this.fetchCountryData(country).subscribe((data: any) => {
+      let dataCleansed = data[1][0];
+      subject.next({
+        countryName: dataCleansed.name,
+        capital: dataCleansed.capitalCity,
+        countryRegion: dataCleansed.region.value,
+        incomeLevel: dataCleansed.incomeLevel.value,
+        iso2Code: dataCleansed.iso2Code,
+        lat: dataCleansed.latitude,
+        lng: dataCleansed.longitude,
+      });
+    });
+    return subject.asObservable();
   }
 }

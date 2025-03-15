@@ -1,20 +1,21 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
+import { ApiService } from '../api.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-world-map',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './world.component.html',
-  styleUrls: ['./world.component.css']
+  styleUrls: ['./world.component.css'],
 })
-export class WorldMapComponent {
-  @Output() countrySelected = new EventEmitter<string>();
+export class WorldComponent {
+  countryData: any = {};
+  constructor(private apiService: ApiService) {}
 
-  onMapClick(event: MouseEvent): void {
-    const countryCode = this.getCountryCodeFromEvent(event);
-    this.countrySelected.emit(countryCode);
-  }
-
-  private getCountryCodeFromEvent(event: MouseEvent): string {
-    // Implement logic to get country code from the event
-    return 'US'; // Example country code
+  setCountryData(event: any) {
+    this.apiService.setCountryData(event.target.id).subscribe((data: any) => {
+      this.countryData = data;
+    });
   }
 }

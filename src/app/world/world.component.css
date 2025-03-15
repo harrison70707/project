@@ -18,8 +18,3 @@ path:hover {
   fill: darkorange; /*rgb(43, 226, 217)*/
   stroke: #00f2ff;
 }
-
-.map-container {
-  width: 100%;
-  height: auto;
-}
